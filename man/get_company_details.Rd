@@ -10,7 +10,7 @@ get_company_details(company_id = NULL)
 \item{company_id}{The ID of the company (an integer) whose details are to be retrieved.}
 }
 \value{
-A list containing a first data frame, with the details of the company, and a second data frame containing the details of each vacancy published by the company. In case an invalid company ID is provided, the function returns the data corresponding to company ID 1. If the company ID does not exist, the function returns NULL.
+A list containing a first data frame, with the details of the company, and a second data frame containing the details of each vacancy published by the company. In case an invalid company ID is provided, the function returns the data corresponding to company whose ID is 1. If the company ID does not exist, the function returns NULL.
 }
 \description{
 Obtains the details of a company, given its ID, and its published vacancies.

@@ -10,7 +10,7 @@ get_learning_tracks(skill_id = NULL)
 \item{skill_id}{The ID (a string) of the skill to be used as a filter.}
 }
 \value{
-A data frame containing a list of all learning tracks, or, in case an (existing) skill ID is provided, it returns only those learning tracks matching that skill.
+A data frame containing a list of all learning tracks, or, in case an (existing) skill ID is provided, it returns only those learning tracks matching that skill. NULL is returned if no learning track (matching the skill ID provided) can be found.
 }
 \description{
 Obtains a list of the learning tracks, optionally filtered by a skill ID

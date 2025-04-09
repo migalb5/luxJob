@@ -51,7 +51,7 @@ get_companies <- function (limit = 100) {
 #'
 #' @param company_id The ID of the company (an integer) whose details are to be retrieved.
 #'
-#' @returns A list containing a first data frame, with the details of the company, and a second data frame containing the details of each vacancy published by the company. In case an invalid company ID is provided, the function returns the data corresponding to company ID 1. If the company ID does not exist, the function returns NULL.
+#' @returns A list containing a first data frame, with the details of the company, and a second data frame containing the details of each vacancy published by the company. In case an invalid company ID is provided, the function returns the data corresponding to company whose ID is 1. If the company ID does not exist, the function returns NULL.
 #' @export
 #'
 #' @examples
@@ -60,7 +60,7 @@ get_companies <- function (limit = 100) {
 #' }
 get_company_details <- function (company_id = NULL) {
   if ((is.na(company_id)) || (!is.numeric(company_id))) {
-    warning("Warning: company_id in get_company_details() not specified or not an integer. Defaulting to: Company 1.")
+    warning("Warning: company_id in get_company_details() not specified or not an integer. Defaulting to: Company ID = 1.")
     company_id = 1
   }
   conn = connect_db()
@@ -68,7 +68,8 @@ get_company_details <- function (company_id = NULL) {
                                     FROM adem.companies AS C
                                     WHERE C.company_id = {company_id}", .con = conn)
   df_company <- DBI::dbGetQuery(conn, query_company)
-  if (is.null(df_company)) {
+  if (nrow(df_company) == 0) {
+    warning("Error: Company (ID) not found.")
     DBI::dbDisconnect(conn)
     return(NULL)
   }

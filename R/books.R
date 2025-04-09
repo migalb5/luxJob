@@ -13,7 +13,7 @@
 #'
 #' @param skill The skill name (label) (a string) describing the skill.
 #'
-#' @returns A data frame with the details of all books, or otherwise, if a skill name (even if partial) is provided, then it returns book details matching that skill.
+#' @returns A data frame with the details of all books, or otherwise, if a skill name (even if partial) is provided, then it returns book details matching that skill. NULL is returned if no books are found (matching the skill provided).
 #' @export
 #'
 #' @examples
@@ -32,6 +32,10 @@ get_books <- function (skill = NULL) {
                           S.skill_label LIKE {skill}", .con = conn)
   df <- DBI::dbGetQuery(conn, query)
   DBI::dbDisconnect(conn)
+  if (nrow(df) == 0) {
+    warning("Warning: No books found.")
+    return(NULL)
+  }
   return(df)
 }
 
@@ -59,9 +63,9 @@ get_books <- function (skill = NULL) {
 #' \dontrun{
 #' get_book_by_id(101)
 #' }
-get_book_by_id <- function (book_id) {
+get_book_by_id <- function (book_id = NULL) {
   if ((is.na(book_id)) || (!is.numeric(book_id))) {
-    warning("Error: book_id in get_book_by_id() not specified or not an integer. Defaulting to book: 1.")
+    warning("Error: book_id in get_book_by_id() not specified or not an integer. Defaulting to book ID = 1.")
     book_id = 1
   }
   conn = connect_db()

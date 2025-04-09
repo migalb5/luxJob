@@ -31,8 +31,8 @@ log_search <- function (user_id, query) {
                               FROM adem.api_users
                               WHERE user_id = {user_id}", .con = conn)
   df_user <- DBI::dbGetQuery(conn, query_user)
-  if (is.null(df_user)) {
-    warning("Error: user_id not found in log_search(). No search data logged.")
+  if (nrow(df_user) == 0) {
+    warning("Error: User (ID) not found. No search data logged.")
     DBI::dbDisconnect(conn)
     return(FALSE)
   }

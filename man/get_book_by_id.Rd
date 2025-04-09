@@ -4,7 +4,7 @@
 \alias{get_book_by_id}
 \title{Obtains the details of a book, given its ID.}
 \usage{
-get_book_by_id(book_id)
+get_book_by_id(book_id = NULL)
 }
 \arguments{
 \item{book_id}{The ID of the book whose details are to be retrieved.}

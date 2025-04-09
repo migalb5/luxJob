@@ -13,7 +13,7 @@
 #'
 #' @param skill_id The ID (a string) of the skill to be used as a filter.
 #'
-#' @returns A data frame containing a list of all learning tracks, or, in case an (existing) skill ID is provided, it returns only those learning tracks matching that skill.
+#' @returns A data frame containing a list of all learning tracks, or, in case an (existing) skill ID is provided, it returns only those learning tracks matching that skill. NULL is returned if no learning track (matching the skill ID provided) can be found.
 #' @export
 #'
 #' @examples
@@ -33,6 +33,10 @@ get_learning_tracks <- function (skill_id = NULL) {
                          S.skill_id LIKE {skill_id}", .con = conn)
   df <- DBI::dbGetQuery(conn, query)
   DBI::dbDisconnect(conn)
+  if (nrow(df) == 0) {
+    warning("Warning: No learning tracks found.")
+    return(NULL)
+  }
   return(df)
 }
 
@@ -59,9 +63,9 @@ get_learning_tracks <- function (skill_id = NULL) {
 #' \dontrun{
 #' get_learning_track_by_id(71)
 #' }
-get_learning_track_by_id <- function (track_id) {
+get_learning_track_by_id <- function (track_id = NULL) {
   if ((is.na(track_id)) || (!is.numeric(track_id))) {
-    warning("Error: track_id in get_learning_track_by_id() not specified or not an integer. Defaulting to track: 1.")
+    warning("Error: track_id in get_learning_track_by_id() not specified or not an integer. Defaulting to track ID = 1.")
     track_id = 1
   }
   conn = connect_db()
@@ -69,8 +73,8 @@ get_learning_track_by_id <- function (track_id) {
                                 FROM adem.learning_tracks
                                 WHERE track_id = {track_id}", .con = conn)
   df_track <- DBI::dbGetQuery(conn, query_track)
-  if (is.null(df_track)) {
-    warning("Error: track not found.")
+  if (nrow(df_track) == 0) {
+    warning("Error: Track (ID) not found.")
     DBI::dbDisconnect(conn)
     return(NULL)
   }

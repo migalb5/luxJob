@@ -10,7 +10,7 @@ get_books(skill = NULL)
 \item{skill}{The skill name (label) (a string) describing the skill.}
 }
 \value{
-A data frame with the details of all books, or otherwise, if a skill name (even if partial) is provided, then it returns book details matching that skill.
+A data frame with the details of all books, or otherwise, if a skill name (even if partial) is provided, then it returns book details matching that skill. NULL is returned if no books are found (matching the skill provided).
 }
 \description{
 Obtain list of the books, optionally filtered by a skill name.

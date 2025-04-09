@@ -16,7 +16,7 @@
 #' @param canton The name of the canton (a string) to be used as a filter.
 #' @param limit The size (an integer) of the list of vacancies to be returned.
 #'
-#' @returns A data frame containing the vacancies (and corresponding details) matching the search criteria specified. All search criterion are optional.
+#' @returns A data frame containing the vacancies (and corresponding details) matching the search criteria specified. All search criterion are optional. NULL is returned if no vacancies (meeting the criteria) are found.
 #' @export
 #'
 #' @examples
@@ -52,6 +52,10 @@ get_vacancies <- function (skill = NULL, company = NULL, canton = NULL, limit = 
                           LIMIT {limit}", .con = conn)
   df <- DBI::dbGetQuery(conn, query)
   DBI::dbDisconnect(conn)
+  if (nrow(df) == 0) {
+    warning("Warning: No vacancies found.")
+    return(NULL)
+  }
   return(df)
 }
 
@@ -88,8 +92,8 @@ get_vacancy_by_id <- function (vacancy_id = NULL) {
                               FROM adem.vacancies AS V
                               WHERE V.vacancy_id = {vacancy_id}", .con = conn)
   df_vac <- DBI::dbGetQuery(conn, query_vac)
-  if (is.null(df_vac)) {
-    warning("Error: vacancy not found.")
+  if (nrow(df_vac) == 0) {
+    warning("Error: Vacancy (ID) not found.")
     DBI::dbDisconnect(conn)
     return(NULL)
   }

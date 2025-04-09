@@ -49,7 +49,7 @@ get_skills <- function (limit = 100) {
 #'
 #' @param skill_id The ID of skill (a string) whose details are to be retrieved.
 #'
-#' @returns A data frame containing the skill details. If no skill ID or an invalid skill ID is provided, then it returns the details about the Communication skill.
+#' @returns A data frame containing the skill details. If no skill ID or an invalid skill ID is provided, then it returns the details about the Communication skill. If the provided skill ID is not found, then it returns NULL.
 #' @export
 #'
 #' @examples
@@ -67,5 +67,9 @@ get_skill_by_id <- function (skill_id = NULL) {
                          WHERE skill_id = {skill_id}", .con = conn)
   df <- DBI::dbGetQuery(conn, query)
   DBI::dbDisconnect(conn)
+  if (nrow(df) == 0) {
+    warning("Error: Skill (ID) not found.")
+    return(NULL)
+  }
   return(df)
 }

@@ -4,7 +4,7 @@
 \alias{get_learning_track_by_id}
 \title{Obtains the details of a learning track, given its ID, and its associated skills.}
 \usage{
-get_learning_track_by_id(track_id)
+get_learning_track_by_id(track_id = NULL)
 }
 \arguments{
 \item{track_id}{The ID of the learning track whose details are to be retrieved.}

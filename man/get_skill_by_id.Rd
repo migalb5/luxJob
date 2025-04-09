@@ -10,7 +10,7 @@ get_skill_by_id(skill_id = NULL)
 \item{skill_id}{The ID of skill (a string) whose details are to be retrieved.}
 }
 \value{
-A data frame containing the skill details. If no skill ID or an invalid skill ID is provided, then it returns the details about the Communication skill.
+A data frame containing the skill details. If no skill ID or an invalid skill ID is provided, then it returns the details about the Communication skill. If the provided skill ID is not found, then it returns NULL.
 }
 \description{
 Obtains the details of a skill, given its ID

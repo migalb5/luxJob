@@ -7,7 +7,7 @@
 connect_db()
 }
 \value{
-A DBI connection object (class \code{"PqConnection"})
+A DBI connection object (class \code{"PqConnection"}); or NULL, in case any error occurs and the DB connection could not be established.
 }
 \description{
 Establishes a connection to the PostgreSQL database using credentials

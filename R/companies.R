@@ -31,6 +31,7 @@ get_companies <- function (limit = 100) {
                          LIMIT {limit}", .con = conn)
   df <- DBI::dbGetQuery(conn, query)
   DBI::dbDisconnect(conn)
+  # improvement: could check if company was found or not
   return(df)
 }
 
@@ -66,7 +67,7 @@ get_company_details <- function (company_id = NULL) {
   conn = connect_db()
   query_company = glue::glue_sql("SELECT C.company_id, C.name, C.sector
                                     FROM adem.companies AS C
-                                    WHERE C.company_id = {company_id}", .con = conn)
+                                    WHERE C.company_id = CAST({company_id} AS INT)", .con = conn)
   df_company <- DBI::dbGetQuery(conn, query_company)
   if (nrow(df_company) == 0) {
     warning("Error: Company (ID) not found.")
@@ -76,7 +77,7 @@ get_company_details <- function (company_id = NULL) {
   query_comp_vac = glue::glue_sql("SELECT V.vacancy_id, V.canton, V.occupation, V.year, V.month
                                       FROM adem.companies AS C, adem.vacancies AS V
                                       WHERE C.company_id = V.company_id AND
-                                      C.company_id = {company_id}", .con = conn)
+                                      C.company_id = CAST({company_id} AS INT)", .con = conn)
   df_comp_vac <- DBI::dbGetQuery(conn, query_comp_vac)
   DBI::dbDisconnect(conn)
   return(list(df_company, df_comp_vac))

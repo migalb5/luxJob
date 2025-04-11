@@ -29,7 +29,7 @@ get_books <- function (skill = NULL) {
   query = glue::glue_sql("SELECT BR.book_id, BR.title, BR.author, BR.skill_id
                           FROM adem.book_recommendations AS BR, adem.skills AS S
                           WHERE BR.skill_id = S.skill_id AND
-                          S.skill_label LIKE {skill}", .con = conn)
+                          S.skill_label LIKE {skill}", .con = conn) # improvement: allow for searching by partial skill_label
   df <- DBI::dbGetQuery(conn, query)
   DBI::dbDisconnect(conn)
   if (nrow(df) == 0) {
@@ -74,6 +74,10 @@ get_book_by_id <- function (book_id = NULL) {
                           WHERE book_id = {book_id}", .con = conn)
   df <- DBI::dbGetQuery(conn, query)
   DBI::dbDisconnect(conn)
+  if (nrow(df) == 0) {
+    warning("Warning: Book not found.")
+    return(NULL)
+  }
   return(df)
 }
 

@@ -2,6 +2,7 @@
 test_that("DB connection is correctly established", {
   conn <- connect_db()
   expect_equal(as.character(class(conn)), "PqConnection")
+  DBI::dbDisconnect(conn)
 })
 
 test_that("DB connection is not established", {

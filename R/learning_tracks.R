@@ -30,7 +30,7 @@ get_learning_tracks <- function (skill_id = NULL) {
                          FROM adem.learning_tracks AS LT, adem.skills AS S, adem.track_skills AS TS
                          WHERE LT.track_id = TS.track_id AND
                          TS.skill_id = S.skill_id AND
-                         S.skill_id LIKE {skill_id}", .con = conn)
+                         S.skill_id LIKE {skill_id}", .con = conn) # improvement: allow searches by partial skill_id
   df <- DBI::dbGetQuery(conn, query)
   DBI::dbDisconnect(conn)
   if (nrow(df) == 0) {

@@ -16,7 +16,7 @@ get_vacancies(skill = NULL, company = NULL, canton = NULL, limit = 100)
 \item{limit}{The size (an integer) of the list of vacancies to be returned.}
 }
 \value{
-A data frame containing the vacancies (and corresponding details) matching the search criteria specified. All search criterion are optional. NULL is returned if no vacancies (meeting the criteria) are found.
+A data frame containing the vacancies (and corresponding details) matching the search criteria specified (conjunction). All search criterion are optional. NULL is returned if no vacancies (meeting the criteria) are found.
 }
 \description{
 Obtains list of the vacancies according to filtering arguments and size limit.

@@ -22,8 +22,8 @@
 #' log_search(user_id = 1, query = "machine learning jobs")
 #' }
 log_search <- function (user_id, query) {
-  if ((is.na(user_id)) || (!is.numeric(user_id))) {
-    warning("Error: user_id in log_search() not specified or not an integer. No search data logged.")
+  if (!is.numeric(user_id)) {
+    warning("Error: user_id in log_search() not an integer. No search data logged.")
     return(FALSE)
   }
   conn = connect_db()
@@ -36,12 +36,12 @@ log_search <- function (user_id, query) {
     DBI::dbDisconnect(conn)
     return(FALSE)
   }
-  if ((is.na(query)) || (!is.character(query))) {
-    warning("Error: query in log_search() not specified or not a string. No search data logged.")
+  if (!is.character(query)) {
+    warning("Error: query in log_search() not a string. No search data logged.")
     return(FALSE)
   }
-  insert_stmt = glue::glue_sql("INSERT INTO student_miguel.search_log (user_id, query) VALUES ({user_id}, {query})", .con = conn)
-  result <- DBI::dbGetQuery(conn, insert_stmt)
+  insert_stmt = glue::glue_sql("INSERT INTO student_miguel.search_logs (user_id, query) VALUES ({user_id}, {query})", .con = conn)
+  result <- DBI::dbGetQuery(conn, insert_stmt) # improvement: wrap around tryCatch block
   DBI::dbDisconnect(conn)
 #  if (result)
   return(TRUE)

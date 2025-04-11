@@ -16,7 +16,7 @@
 #' @param canton The name of the canton (a string) to be used as a filter.
 #' @param limit The size (an integer) of the list of vacancies to be returned.
 #'
-#' @returns A data frame containing the vacancies (and corresponding details) matching the search criteria specified. All search criterion are optional. NULL is returned if no vacancies (meeting the criteria) are found.
+#' @returns A data frame containing the vacancies (and corresponding details) matching the search criteria specified (conjunction). All search criterion are optional. NULL is returned if no vacancies (meeting the criteria) are found.
 #' @export
 #'
 #' @examples

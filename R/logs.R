@@ -41,7 +41,7 @@ log_search <- function (user_id, query) {
     return(FALSE)
   }
   insert_stmt = glue::glue_sql("INSERT INTO student_miguel.search_logs (user_id, query) VALUES ({user_id}, {query})", .con = conn)
-  result <- DBI::dbGetQuery(conn, insert_stmt) # improvement: wrap around tryCatch block
+  result <- DBI::dbExecute(conn, insert_stmt) # improvement: wrap around tryCatch block
   DBI::dbDisconnect(conn)
 #  if (result)
   return(TRUE)

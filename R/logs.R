@@ -43,8 +43,12 @@ log_search <- function (user_id, query) {
   insert_stmt = glue::glue_sql("INSERT INTO student_miguel.search_logs (user_id, query) VALUES ({user_id}, {query})", .con = conn)
   result <- DBI::dbExecute(conn, insert_stmt) # improvement: wrap around tryCatch block
   DBI::dbDisconnect(conn)
-#  if (result)
-  return(TRUE)
+  if (result == 1)
+    return(TRUE)
+  else {
+    warning("Error in updating database. No search data logged.")
+    return(FALSE)
+  }
 }
 
 

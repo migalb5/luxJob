@@ -2,7 +2,7 @@
 % Please edit documentation in R/auth_aut.R
 \name{verify_token}
 \alias{verify_token}
-\title{Validates a user token via DB (and decreases user API call quota, if token validated)}
+\title{Validates a user token via DB (and checks/decreases user API call quota, if token validated)}
 \usage{
 verify_token(token, schema)
 }
@@ -12,10 +12,10 @@ verify_token(token, schema)
 \item{schema}{The name of the schema (a string) to be used for looking up API users.}
 }
 \value{
-TRUE, if token has been found in DB (i.e., it belongs to one existing user); FALSE, otherwise.
+TRUE, if token has been found in DB (i.e., it belongs to one existing user) and user quota was > 0; FALSE, otherwise.
 }
 \description{
-Validates a user token via DB (and decreases user API call quota, if token validated)
+Validates a user token via DB (and checks/decreases user API call quota, if token validated)
 }
 \examples{
 \dontrun{

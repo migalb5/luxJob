@@ -12,13 +12,13 @@
 #' verify_token("token123", "student_miguel")
 #' }
 verify_token <- function (token, schema) {
-  if ((!is.na(token)) || (nchar(token) == 0)) {
+  if ((is.na(token)) || (nchar(token) == 0)) {
     warning("Error: Authentication/authorization token not provided or empty. API call denied.")
     return(FALSE)
   }
   conn = connect_db()
   query = glue::glue_sql("SELECT user_id, username, token, quota
-                          FROM {schema}.api_users
+                          FROM {`schema`}.api_users
                           WHERE token = {token}", .con = conn)
   df <- DBI::dbGetQuery(conn, query)
   if (nrow(df) == 0) {
@@ -27,7 +27,7 @@ verify_token <- function (token, schema) {
     return(FALSE)
   }
 
-  API_call_allowed <- decrement_quota(conn, token)
+  API_call_allowed <- decrement_quota(conn, token, schema)
   DBI::dbDisconnect(conn)
   return(API_call_allowed)
 }
@@ -42,16 +42,16 @@ verify_token <- function (token, schema) {
 #'
 #' @examples
 #' \dontrun{
-#' decrement_quota(conn, "token456", student_miguel")
+#' decrement_quota(conn, "token456", "student_miguel")
 #' }
 decrement_quota <- function (conn, token, schema) {
   query = glue::glue_sql("SELECT quota
-                          FROM {schema}.api_users
+                          FROM {`schema`}.api_users
                           WHERE token = {token}", .con = conn)
   df <- DBI::dbGetQuery(conn, query)
   if (df[[1]] > 0) {
     new_quota = as.integer(df[[1]] - 1)
-    query = glue::glue_sql("UPDATE {schema}.api_users
+    query = glue::glue_sql("UPDATE {`schema`}.api_users
                             SET quota = {new_quota}
                             WHERE token = {token}", .con = conn)
     DBI::dbExecute(conn, query)

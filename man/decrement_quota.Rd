@@ -2,7 +2,7 @@
 % Please edit documentation in R/auth_aut.R
 \name{decrement_quota}
 \alias{decrement_quota}
-\title{Decrements API call user quota (given a validated token)}
+\title{Decrements API call user quota (given a validated token), if quota > 0}
 \usage{
 decrement_quota(conn, token, schema)
 }
@@ -14,8 +14,13 @@ decrement_quota(conn, token, schema)
 \item{schema}{The DB schema to use for user lookup/update.}
 }
 \value{
-Nothing.
+TRUE, if user quota was > 0; FALSE, if user quota was already zero.
 }
 \description{
-Decrements API call user quota (given a validated token)
+Decrements API call user quota (given a validated token), if quota > 0
+}
+\examples{
+\dontrun{
+decrement_quota(conn, "token456", "student_miguel")
+}
 }
